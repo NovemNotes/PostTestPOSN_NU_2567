@@ -1,34 +1,33 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 1009;
+#define int long long
+const int N = 1000+9;
 
 int n,m;
+int mx=0,cnt=0;
+vector<vector<int>> v(N,vector<int>(N,0));
 
-int table[N][N];
-
-int ans = 0 , area = 0;
-
-int main(){
-    cin.tie(nullptr)->sync_with_stdio(false);
+int32_t main(){
+    ios_base::sync_with_stdio(false);cin.tie(NULL);
     cin >> n >> m;
-    
     for(int i=1;i<=n;i++){
         for(int j=1;j<=n;j++){
-            cin >> table[i][j];
-            table[i][j] += table[i-1][j] + table[i][j-1] - table[i-1][j-1];
+            cin >> v[i][j];
+            v[i][j]+=v[i-1][j]+v[i][j-1]-v[i-1][j-1];
         }
     }
-    
     for(int i=m;i<=n;i++){
         for(int j=m;j<=n;j++){
-            int tb = table[i][j] - table[i-m][j] - table[i][j-m] + table[i-m][j-m];
-            if(tb > area){
-                area = tb;
-                ans = 1;
-            }else if(tb == area)ans++;
+            int area = v[i][j]-v[i-m][j]-v[i][j-m]+v[i-m][j-m];
+            if(mx<area){
+                mx=area;
+                cnt=1;
+            }else if(mx==area){
+                cnt++;
+            }
         }
     }
-    cout << area << "\n" << ans << "\n";
+    cout << mx << "\n" << cnt << "\n";
     return 0;
 }
