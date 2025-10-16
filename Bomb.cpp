@@ -1,39 +1,33 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 509 , M = 509;
-
-bool table[N][M];
+const int N = 509;
+vector<vector<bool>> v(N,vector<bool>(N,false));
 int n,m;
-int tmp;
 
-void solve(int dx,int dy,int ex,int ey){
-    for(int i=dx;i<=ex;i++){
-        for(int j=dy;j<=ey;j++){
-            if(table[i][j]){
-                table[i][j] = false;
-                tmp--;
+int main(){
+    ios_base::sync_with_stdio(false);cin.tie(NULL);
+    cin >> n >> m;
+    int q;cin >> q;
+    int cnt=q;
+    while(q--){
+        int x,y;cin >> x >> y;
+        v[x][y]=true;
+    }
+    cin >> q;
+    while(q--){
+        int x,y,r;cin >> x >> y >> r;
+        int ax=max(x-r,0),ay=max(y-r,0);
+        int bx=min(x+r,n-1),by=min(y+r,m-1);
+        for(int i=ax;i<=bx;i++){
+            for(int j=ay;j<=by;j++){
+                if(v[i][j]){
+                    cnt--;
+                    v[i][j]=false;
+                }
             }
         }
     }
-    
-    return;
-}
-
-int main(){
-    cin.tie(nullptr)->sync_with_stdio(false);
-    cin >> n >> m;
-    int h;cin >> h;
-    tmp = h;
-    while(h--){
-        int x,y;cin >> x >> y;
-        table[x][y] = true;
-    }
-    int q;cin >> q;
-    while(q--){
-        int x,y,r;cin >> x >> y >> r;
-        solve(max(0,x-r),max(0,y-r),min(x+r,n),max(y+r,m));
-    }
-    cout << tmp;
+    cout << cnt << "\n";
     return 0;
 }
